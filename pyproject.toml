@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "alert-triage-agent"
+version = "0.1.0"
+description = "A Claude agent that triages security alerts using CVE, CISA KEV and MITRE ATT&CK data, and verifies its own citations"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "Jody-Ann Trimmingham" }]
+dependencies = [
+    "anthropic>=0.40",
+    "mcp>=2.2,<3",
+    "cyber-intel-mcp @ git+https://github.com/Jody2905/cyber-intel-mcp",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+triage-agent = "triage_agent.cli:main"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/triage_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

